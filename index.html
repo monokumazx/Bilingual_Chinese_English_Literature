@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilingual Writing Guide | 双语写作指南</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Noto Serif SC for Chinese, Inter for English -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'paper': '#fdfbf7',
+                        'paper-dark': '#f3f0e8',
+                        'ink': '#2c2c2c',
+                        'ink-light': '#4a4a4a',
+                        'seal-red': '#b93a32',
+                        'accent-blue': '#3b5c77'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fdfbf7;
+            color: #2c2c2c;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e5e0d1' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fdfbf7; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1cbc1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b0a99e; 
+        }
+
+        .chinese-text {
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Toast Animation */
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, 20px); }
+            10% { opacity: 1; transform: translate(-50%, 0); }
+            90% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, -20px); }
+        }
+        .toast {
+            animation: fadeInOut 2s ease-in-out forwards;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col md:flex-row">
+
+    <!-- Mobile Header -->
+    <div class="md:hidden bg-paper-dark border-b border-gray-200 p-4 sticky top-0 z-50 flex justify-between items-center shadow-sm">
+        <h1 class="text-xl font-bold font-serif text-ink tracking-wide">
+            <i class="fa-solid fa-pen-nib text-seal-red mr-2"></i>Writing Guide
+        </h1>
+        <button id="mobile-menu-btn" class="text-ink focus:outline-none">
+            <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out z-30 w-64 bg-paper-dark border-r border-gray-200 flex flex-col h-screen md:h-auto md:min-h-screen">
+        <div class="p-6 border-b border-gray-300 hidden md:block">
+            <h1 class="text-2xl font-bold font-serif text-ink tracking-wide">
+                <i class="fa-solid fa-pen-nib text-seal-red mr-2"></i>双语写作
+            </h1>
+            <p class="text-xs text-gray-500 mt-2 uppercase tracking-widest">Bilingual Guide</p>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+            <button onclick="filterCategory('all')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-sm transition-all text-sm font-medium text-ink-light flex items-center bg-white shadow-sm ring-1 ring-gray-200">
+                <i class="fa-solid fa-layer-group w-6 text-seal-red"></i> All Terms
+            </button>
+            <div class="pt-2 pb-1 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Grammar Basics</div>
+            <button onclick="filterCategory('parts-of-speech')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-sm transition-all text-sm font-medium text-ink-light flex items-center">
+                <i class="fa-solid fa-shapes w-6 text-gray-400"></i> Parts of Speech
+            </button>
+             <button onclick="filterCategory('components')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-sm transition-all text-sm font-medium text-ink-light flex items-center">
+                <i class="fa-solid fa-puzzle-piece w-6 text-gray-400"></i> Sentence Components
+            </button>
+            <button onclick="filterCategory('particles')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-sm transition-all text-sm font-medium text-ink-light flex items-center">
+                <i class="fa-solid fa-asterisk w-6 text-gray-400"></i> Particles & Measures
+            </button>
+            
+            <div class="pt-4 pb-1 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Composition</div>
+            <button onclick="filterCategory('writing-terms')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-sm transition-all text-sm font-medium text-ink-light flex items-center">
+                <i class="fa-solid fa-book w-6 text-gray-400"></i> Writing Terms
+            </button>
+            <button onclick="filterCategory('structure')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-sm transition-all text-sm font-medium text-ink-light flex items-center">
+                <i class="fa-solid fa-align-left w-6 text-gray-400"></i> Articles & Paragraphs
+            </button>
+            <button onclick="filterCategory('sentences')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-sm transition-all text-sm font-medium text-ink-light flex items-center">
+                <i class="fa-solid fa-code-branch w-6 text-gray-400"></i> Sentence Types
+            </button>
+            <button onclick="filterCategory('transitions')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-sm transition-all text-sm font-medium text-ink-light flex items-center">
+                <i class="fa-solid fa-link w-6 text-gray-400"></i> Transitions
+            </button>
+
+            <div class="pt-4 pb-1 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Literature & Rhetoric</div>
+            <button onclick="filterCategory('rhetoric')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-sm transition-all text-sm font-medium text-ink-light flex items-center">
+                <i class="fa-solid fa-feather-pointed w-6 text-gray-400"></i> Rhetorical Devices
+            </button>
+            <button onclick="filterCategory('idioms')" class="nav-btn w-full text-left px-4 py-3 rounded-lg hover:bg-white hover:shadow-sm transition-all text-sm font-medium text-ink-light flex items-center">
+                <i class="fa-solid fa-dragon w-6 text-gray-400"></i> Idioms & Proverbs
+            </button>
+        </nav>
+
+        <div class="p-4 border-t border-gray-300 text-xs text-gray-500 text-center">
+            <p>Designed for Learners & Experts</p>
+        </div>
+    </aside>
+
+    <!-- Overlay for mobile -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black opacity-50 z-20 hidden md:hidden"></div>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- Search Header -->
+        <header class="bg-paper p-6 md:p-8 pb-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
+                    <input type="text" id="search-input" placeholder="Search (e.g., 'Metaphor', 'Particles', 'De')..." 
+                        class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-seal-red focus:border-transparent bg-white shadow-sm transition-all outline-none">
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2 text-sm text-gray-500" id="active-filter-display">
+                    <span>Showing: <span class="font-bold text-ink">All Categories</span></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Scrollable Content Area -->
+        <div class="flex-1 overflow-y-auto p-6 md:p-8 pt-2" id="scroll-container">
+            <div id="content-grid" class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 pb-12">
+                <!-- Content injected via JS -->
+            </div>
+
+            <!-- Footer Reference -->
+            <div class="max-w-5xl mx-auto mt-12 pt-8 border-t border-gray-300 text-center text-sm text-gray-500 pb-8 space-y-2">
+                <p class="mb-2 font-serif font-bold text-ink">References & Sources</p>
+                <div class="flex flex-col gap-1 text-xs text-gray-500">
+                    <a href="https://baike.baidu.com/item/%E6%B1%89%E8%AF%AD%E8%AF%AD%E6%B3%95/1320597" target="_blank" class="hover:text-seal-red transition-colors underline decoration-dotted">Baidu Baike: 汉语语法 (Chinese Grammar)</a>
+                    <a href="https://baike.baidu.com/item/%E4%BB%8B%E8%AF%8D/2643774" target="_blank" class="hover:text-seal-red transition-colors underline decoration-dotted">Baidu Baike: 介词 (Prepositions)</a>
+                    <a href="https://baike.baidu.com/item/%E4%BF%AE%E8%BE%9E%E6%89%8B%E6%B3%95" target="_blank" class="hover:text-seal-red transition-colors underline decoration-dotted">Baidu Baike: 修辞手法 (Rhetorical Devices)</a>
+                    <p>Additional data compiled from Mandarin Temple, Yabla, Wikipedia, Koolearn, TrainChinese, OMG Chinese, Chinese Notes, Collins Dictionary, HanyuAce, and WordReference.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-ink text-white px-6 py-3 rounded-full shadow-lg z-50 hidden flex items-center gap-2">
+        <i class="fa-solid fa-check-circle text-green-400"></i>
+        <span>Copied to clipboard</span>
+    </div>
+
+    <script>
+        // Data Source
+        const writingData = [
+            // --- Particles & Measures (NEW) ---
+            {
+                id: 'pt1',
+                category: 'particles',
+                hanzi: '助词',
+                pinyin: 'zhùcí',
+                english: 'Particle',
+                definition: 'Function words that indicate grammatical relationships or tone. They have no concrete meaning alone.',
+                example: '“的”、“了”、“吗”都是助词。',
+                example_en: '"De", "le", and "ma" are all particles.'
+            },
+            {
+                id: 'pt2',
+                category: 'particles',
+                hanzi: '的',
+                pinyin: 'de',
+                english: 'Particle (Attribute)',
+                definition: 'Connects descriptions to nouns (Possessive/Attributive). Structure: Description + 的 + Noun.',
+                example: '这是我最喜欢的书。',
+                example_en: 'This is my favorite book.'
+            },
+            {
+                id: 'pt3',
+                category: 'particles',
+                hanzi: '地',
+                pinyin: 'de',
+                english: 'Particle (Adverbial)',
+                definition: 'Connects descriptions to verbs (Adverbial). Structure: Description + 地 + Verb.',
+                example: '他高兴地笑了。',
+                example_en: 'He smiled happily.'
+            },
+            {
+                id: 'pt4',
+                category: 'particles',
+                hanzi: '得',
+                pinyin: 'de',
+                english: 'Particle (Complement)',
+                definition: 'Connects verbs to results/degrees. Structure: Verb + 得 + Description.',
+                example: '他跑得很快。',
+                example_en: 'He runs very fast.'
+            },
+            {
+                id: 'pt5',
+                category: 'particles',
+                hanzi: '了',
+                pinyin: 'le',
+                english: 'Particle (Perfective)',
+                definition: 'Indicates a completed action or a change of state.',
+                example: '雨停了，我们可以走了。',
+                example_en: 'The rain has stopped; we can go now.'
+            },
+            {
+                id: 'pt6',
+                category: 'particles',
+                hanzi: '量词',
+                pinyin: 'liàngcí',
+                english: 'Measure Word / Classifier',
+                definition: 'Words used to indicate the unit of a noun (e.g., piece, pair, cup).',
+                example: '一头牛，三本书，一张纸。',
+                example_en: 'One cow, three books, one sheet of paper.'
+            },
+
+            // --- Rhetorical Devices (NEW) ---
+            {
+                id: 'rh1',
+                category: 'rhetoric',
+                hanzi: '修辞手法',
+                pinyin: 'xiūcí shǒufǎ',
+                english: 'Rhetorical Devices',
+                definition: 'Techniques used in writing to make language more expressive and persuasive.',
+                example: '作家在诗歌中使用了多种修辞手法。',
+                example_en: 'The writer used various rhetorical devices in the poem.'
+            },
+            {
+                id: 'rh2',
+                category: 'rhetoric',
+                hanzi: '比喻',
+                pinyin: 'bǐyù',
+                english: 'Metaphor / Simile',
+                definition: 'Comparing one thing to another to make a description more vivid.',
+                example: '月亮像一个大圆盘。（明喻）',
+                example_en: 'The moon is like a large disk. (Simile)'
+            },
+            {
+                id: 'rh3',
+                category: 'rhetoric',
+                hanzi: '拟人',
+                pinyin: 'nǐrén',
+                english: 'Personification',
+                definition: 'Giving human qualities or actions to non-human objects or animals.',
+                example: '风儿在轻轻地歌唱。',
+                example_en: 'The wind is gently singing.'
+            },
+            {
+                id: 'rh4',
+                category: 'rhetoric',
+                hanzi: '排比',
+                pinyin: 'páibǐ',
+                english: 'Parallelism',
+                definition: 'Using three or more phrases with similar structure to enhance rhythm and momentum.',
+                example: '燕子去了，有再来的时候；杨柳枯了，有再青的时候；桃花谢了，有再开的时候。',
+                example_en: 'Swallows go, but return; willows wither, but green again; peach blossoms fade, but bloom again.'
+            },
+            {
+                id: 'rh5',
+                category: 'rhetoric',
+                hanzi: '夸张',
+                pinyin: 'kuāzhāng',
+                english: 'Hyperbole / Exaggeration',
+                definition: 'Deliberately exaggerating facts to highlight a feature or express strong emotion.',
+                example: '教室里静得连根针掉在地上都能听见。',
+                example_en: 'The classroom was so quiet you could hear a pin drop.'
+            },
+            {
+                id: 'rh6',
+                category: 'rhetoric',
+                hanzi: '反问',
+                pinyin: 'fǎnwèn',
+                english: 'Rhetorical Question',
+                definition: 'Asking a question not for an answer, but to emphasize a point.',
+                example: '难道我们不应该保护环境吗？',
+                example_en: 'Shouldn\'t we protect the environment? (Meaning: We definitely should.)'
+            },
+             {
+                id: 'rh7',
+                category: 'rhetoric',
+                hanzi: '象征',
+                pinyin: 'xiàngzhēng',
+                english: 'Symbolism',
+                definition: 'Using a concrete object to represent an abstract idea or quality.',
+                example: '在中国文学中，梅花常象征坚强和高洁。',
+                example_en: 'In Chinese literature, plum blossoms often symbolize resilience and nobility.'
+            },
+
+            // --- Parts of Speech (Existing) ---
+            {
+                id: 'ps1',
+                category: 'parts-of-speech',
+                hanzi: '名词',
+                pinyin: 'míngcí',
+                english: 'Noun',
+                definition: 'A word that represents a person, place, thing, or idea.',
+                example: '“桌子”、“北京”、“幸福”都是名词。',
+                example_en: '"Table", "Beijing", and "Happiness" are all nouns.'
+            },
+            {
+                id: 'ps2',
+                category: 'parts-of-speech',
+                hanzi: '动词',
+                pinyin: 'dòngcí',
+                english: 'Verb',
+                definition: 'A word describing an action, state, or occurrence.',
+                example: '请找出这句中的动词：“跑”、“吃”、“是”。',
+                example_en: 'Please find the verbs in this sentence: "run", "eat", "is".'
+            },
+            {
+                id: 'ps3',
+                category: 'parts-of-speech',
+                hanzi: '形容词',
+                pinyin: 'xíngróngcí',
+                english: 'Adjective',
+                definition: 'A word used to describe or modify a noun or pronoun.',
+                example: '她穿了一件漂亮的裙子。（“漂亮”是形容词）',
+                example_en: 'She wore a beautiful dress. ("Beautiful" is the adjective.)'
+            },
+            {
+                id: 'ps4',
+                category: 'parts-of-speech',
+                hanzi: '介词',
+                pinyin: 'jiècí',
+                english: 'Preposition',
+                definition: 'Words placed before nouns/pronouns to indicate time, place, direction, or object.',
+                example: '他在家里看书。（“在”是介词，表示地点）',
+                example_en: 'He reads at home. ("Zai" is the preposition indicating location.)'
+            },
+             {
+                id: 'ps5',
+                category: 'parts-of-speech',
+                hanzi: '代词',
+                pinyin: 'dàicí',
+                english: 'Pronoun',
+                definition: 'A word that substitutes for a noun (e.g., I, you, it, this).',
+                example: '那是我的书。（“那”和“我”是代词）',
+                example_en: 'That is my book. ("That" and "my" are pronouns.)'
+            },
+
+            // --- Sentence Components (Existing) ---
+            {
+                id: 'sc1',
+                category: 'components',
+                hanzi: '主语',
+                pinyin: 'zhǔyǔ',
+                english: 'Subject',
+                definition: 'The person or thing performing the action or being described. Usually at the start.',
+                example: '小明在踢足球。（“小明”是主语）',
+                example_en: 'Xiao Ming is playing soccer. ("Xiao Ming" is the subject.)'
+            },
+            {
+                id: 'sc2',
+                category: 'components',
+                hanzi: '谓语',
+                pinyin: 'wèiyǔ',
+                english: 'Predicate',
+                definition: 'The part of the sentence that tells what the subject does or is (usually the verb).',
+                example: '鸟儿飞。（“飞”是谓语）',
+                example_en: 'Birds fly. ("Fly" is the predicate.)'
+            },
+            {
+                id: 'sc3',
+                category: 'components',
+                hanzi: '宾语',
+                pinyin: 'bīnyǔ',
+                english: 'Object',
+                definition: 'The receiver of the action. It usually follows the verb.',
+                example: '我喝水。（“水”是宾语）',
+                example_en: 'I drink water. ("Water" is the object.)'
+            },
+            {
+                id: 'sc4',
+                category: 'components',
+                hanzi: '定语',
+                pinyin: 'dìngyǔ',
+                english: 'Attribute / Modifier',
+                definition: 'Words modifying the subject or object, often marked by “的” (de).',
+                example: '红色的苹果。（“红色的”是定语，修饰苹果）',
+                example_en: 'Red apple. ("Red" is the attribute modifying apple.)'
+            },
+            {
+                id: 'sc5',
+                category: 'components',
+                hanzi: '状语',
+                pinyin: 'zhuàngyǔ',
+                english: 'Adverbial',
+                definition: 'Modifies the verb/predicate (time, place, manner), often marked by “地” (de).',
+                example: '他飞快地跑了。（“飞快地”是状语）',
+                example_en: 'He ran quickly. ("Quickly" is the adverbial.)'
+            },
+            {
+                id: 'sc6',
+                category: 'components',
+                hanzi: '补语',
+                pinyin: 'bǔyǔ',
+                english: 'Complement',
+                definition: 'Follows the verb to explain the result, degree, or direction, often marked by “得” (de).',
+                example: '由于紧张，他写得很慢。（“很慢”是补语）',
+                example_en: 'Because of nervousness, he wrote very slowly. ("Very slowly" is the complement.)'
+            },
+
+            // --- Writing Terms (Existing) ---
+            {
+                id: 'wt1',
+                category: 'writing-terms',
+                hanzi: '写作',
+                pinyin: 'xiězuò',
+                english: 'writing / composition',
+                definition: 'Refers to the activity or process of writing articles or works.',
+                example: '他喜欢写作，常常把自己的经历和感想记录下来。',
+                example_en: 'He likes writing; he often records his experiences and thoughts.'
+            },
+            {
+                id: 'wt2',
+                category: 'writing-terms',
+                hanzi: '撰写',
+                pinyin: 'zhuànxiě',
+                english: 'to compose / to write',
+                definition: 'Emphasizes the formal act of composing text or data. More formal than 写作.',
+                example: '她正在撰写一篇学术论文。',
+                example_en: 'She is currently composing an academic paper.'
+            },
+            {
+                id: 'wt3',
+                category: 'writing-terms',
+                hanzi: '作文',
+                pinyin: 'zuòwén',
+                english: 'composition / essay',
+                definition: 'Refers to articles required in writing training, especially school assignments.',
+                example: '我明天要上交一篇英语作文。',
+                example_en: 'I have to submit an English composition tomorrow.'
+            },
+            {
+                id: 'wt4',
+                category: 'writing-terms',
+                hanzi: '文学',
+                pinyin: 'wénxué',
+                english: 'literature',
+                definition: 'Art forms using language as a medium, including novels, poetry, prose, etc.',
+                example: '中国文学有着悠久的历史与丰厚的底蕴。',
+                example_en: 'Chinese literature has a long history and rich heritage.'
+            },
+            {
+                id: 'wt5',
+                category: 'writing-terms',
+                hanzi: '作者 / 作家',
+                pinyin: 'zuòzhě / zuòjiā',
+                english: 'author / writer',
+                definition: 'The person who writes. "Zuòjiā" usually implies a professional or famous writer.',
+                example: '这部小说的作者是著名作家鲁迅。',
+                example_en: 'The author of this novel is the famous writer Lu Xun.'
+            },
+
+            // --- Manuscripts & Drafts (Existing) ---
+            {
+                id: 'md1',
+                category: 'drafts',
+                hanzi: '文稿',
+                pinyin: 'wéngǎo',
+                english: 'manuscript / draft',
+                definition: 'Refers to text manuscripts or scripts that have not yet been officially published or printed.',
+                example: '报告的文稿已经写完，下一步进行修改。',
+                example_en: 'The manuscript of the report is finished, the next step is revision.'
+            },
+            {
+                id: 'md2',
+                category: 'drafts',
+                hanzi: '手稿',
+                pinyin: 'shǒugǎo',
+                english: 'handwritten manuscript',
+                definition: 'Original manuscripts written by the author by hand.',
+                example: '博物馆里收藏着这位诗人的亲笔手稿。',
+                example_en: 'The museum houses this poet’s autograph manuscript.'
+            },
+            {
+                id: 'md3',
+                category: 'drafts',
+                hanzi: '草稿',
+                pinyin: 'cǎogǎo',
+                english: 'rough draft',
+                definition: 'Preliminary drafts or outlines that have not been revised.',
+                example: '在写正式文章之前，他先做了很多草稿。',
+                example_en: 'Before writing the final article, he first made many drafts.'
+            },
+            {
+                id: 'md4',
+                category: 'drafts',
+                hanzi: '副本 / 抄本',
+                pinyin: 'fùběn / chāoběn',
+                english: 'copy / transcript',
+                definition: 'Copied text. "Chāoběn" usually refers to a hand-copied version.',
+                example: '那是一份珍贵的古籍抄本。',
+                example_en: 'That is a precious handwritten copy of an ancient book.'
+            },
+            {
+                id: 'md5',
+                category: 'drafts',
+                hanzi: '剧本',
+                pinyin: 'jùběn',
+                english: 'script / play',
+                definition: 'Text for performance arts like drama, movies, or radio.',
+                example: '电影导演让所有演员都拿到了剧本副本。',
+                example_en: 'The film director gave all actors a copy of the script.'
+            },
+
+            // --- Articles & Paragraphs (Existing) ---
+            {
+                id: 'ap1',
+                category: 'structure',
+                hanzi: '文章',
+                pinyin: 'wénzhāng',
+                english: 'article / composition',
+                definition: 'A written work consisting of a title, body text, and paragraphs.',
+                example: '这篇文章的水平很高。',
+                example_en: 'This article is of a very high standard.'
+            },
+            {
+                id: 'ap2',
+                category: 'structure',
+                hanzi: '段落',
+                pinyin: 'duànluò',
+                english: 'paragraph',
+                definition: 'A section of text organized around a theme. Usually starts on a new line.',
+                example: '每个段落都应该有一个清晰的主题句。',
+                example_en: 'Each paragraph should have a clear topic sentence.'
+            },
+
+            // --- Sentence Structure (Existing) ---
+            {
+                id: 'ss1',
+                category: 'sentences',
+                hanzi: '句子',
+                pinyin: 'jùzi',
+                english: 'sentence',
+                definition: 'A language unit composed of words expressing a complete idea.',
+                example: '这句话语法正确，表达清楚。',
+                example_en: 'This sentence is grammatically correct and expresses clearly.'
+            },
+            {
+                id: 'ss2',
+                category: 'sentences',
+                hanzi: '简单句',
+                pinyin: 'jiǎndānjù',
+                english: 'simple sentence',
+                definition: 'A sentence with only one subject-predicate structure.',
+                example: '他写了一篇文章。',
+                example_en: 'He wrote an article.'
+            },
+            {
+                id: 'ss3',
+                category: 'sentences',
+                hanzi: '并列句',
+                pinyin: 'bìnglièjù',
+                english: 'compound sentence',
+                definition: 'Two or more related simple sentences connected by coordinating conjunctions; meanings are parallel.',
+                example: '我喜欢篮球，也喜欢足球。',
+                example_en: 'I like basketball and also like football.'
+            },
+            {
+                id: 'ss4',
+                category: 'sentences',
+                hanzi: '复合句 / 复句',
+                pinyin: 'fùhéjù',
+                english: 'complex sentence',
+                definition: 'Contains two or more clauses, often with a main-subordinate relationship.',
+                example: '因为下雨了，我们只好待在家里。',
+                example_en: 'Because it was raining, we had to stay at home.'
+            },
+            {
+                id: 'ss5',
+                category: 'sentences',
+                hanzi: '把字句',
+                pinyin: 'bǎ zì jù',
+                english: 'Ba-sentence',
+                definition: 'Active voice sentence focusing on the disposal of an object. Structure: Sub + 把 + Obj + Verb.',
+                example: '请把门关上。',
+                example_en: 'Please close the door. (Lit: Please take the door and close it.)'
+            },
+             {
+                id: 'ss6',
+                category: 'sentences',
+                hanzi: '被字句',
+                pinyin: 'bèi zì jù',
+                english: 'Bei-sentence',
+                definition: 'Passive voice sentence. Structure: Receiver + 被 + Agent + Verb.',
+                example: '蛋糕被弟弟吃了。',
+                example_en: 'The cake was eaten by little brother.'
+            },
+            {
+                id: 'ss7',
+                category: 'sentences',
+                hanzi: '条件句',
+                pinyin: 'tiáojiànjù',
+                english: 'conditional sentence',
+                definition: 'Expresses a condition-result relationship, often using "If... then..." (如果…就…).',
+                example: '如果天气好，我们就去郊游。',
+                example_en: 'If the weather is good, we will go for an outing.'
+            },
+            {
+                id: 'ss8',
+                category: 'sentences',
+                hanzi: '目的句',
+                pinyin: 'mùdìjù',
+                english: 'purposive clause',
+                definition: 'A complex sentence expressing purpose, often guided by "in order to" (为了).',
+                example: '他学习汉语是为了能读懂中文书籍。',
+                example_en: 'He studies Chinese in order to read Chinese books.'
+            },
+            {
+                id: 'ss9',
+                category: 'sentences',
+                hanzi: '主题句',
+                pinyin: 'zhǔtíjù',
+                english: 'topic sentence',
+                definition: 'A sentence at the start of a paragraph summarizing the main point.',
+                example: '这篇说明文的主题句放在了第一段。',
+                example_en: 'The topic sentence of this expository essay is placed in the first paragraph.'
+            },
+
+            // --- Transitions (Existing) ---
+            {
+                id: 'tr1',
+                category: 'transitions',
+                hanzi: '过渡词',
+                pinyin: 'guòdùcí',
+                english: 'transition words',
+                definition: 'Words used to connect sentences or paragraphs for coherence (e.g., However, Therefore).',
+                example: '然而，虽然遇到了困难，他还是坚持完成了任务。',
+                example_en: 'However, although he encountered difficulties, he still persisted in completing the task.'
+            },
+            {
+                id: 'tr2',
+                category: 'transitions',
+                hanzi: '转折句',
+                pinyin: 'zhuǎnzhé jù',
+                english: 'pivotal / transition sentence',
+                definition: 'A sentence structure realizing a turn or connection, often where the object of the first clause becomes the subject of the second.',
+                example: '如果你让我去，我就去。',
+                example_en: 'If you let me go, I will go. (Shift from condition to result)'
+            },
+            {
+                id: 'tr3',
+                category: 'transitions',
+                hanzi: '让步句',
+                pinyin: 'ràngbù jù',
+                english: 'concessive sentence',
+                definition: 'Expresses concession, usually using "Although... still..." (虽然…但是…).',
+                example: '虽然下雨了，我们仍然准时到达了学校。',
+                example_en: 'Although it was raining, we still arrived at school on time.'
+            },
+            {
+                id: 'tr4',
+                category: 'transitions',
+                hanzi: '连接词 / 连词',
+                pinyin: 'liáncí',
+                english: 'conjunction / linker',
+                definition: 'Words connecting words, phrases, or sentences (And, Or, But, Because).',
+                example: '他们去了图书馆，因为要借书。',
+                example_en: 'They went to the library because they needed to borrow books.'
+            },
+
+            // --- Idioms (Existing) ---
+            {
+                id: 'id1',
+                category: 'idioms',
+                hanzi: '成语',
+                pinyin: 'chéngyǔ',
+                english: 'idiom (4-character)',
+                definition: 'Fixed phrases, usually four characters, with specific cultural meanings.',
+                example: '“对牛弹琴”是一个成语，比喻对不懂道理的人讲道理是徒劳的。',
+                example_en: '“Playing the lute to a cow” is an idiom meaning to address someone who can’t understand reason.'
+            },
+            {
+                id: 'id2',
+                category: 'idioms',
+                hanzi: '谚语',
+                pinyin: 'yànyǔ',
+                english: 'proverb',
+                definition: 'Short popular sayings containing life philosophy or advice.',
+                example: '“百闻不如一见”就是一句谚语。',
+                example_en: '“Hearing something a hundred times isn’t as good as seeing it once” is a proverb.'
+            }
+        ];
+
+        // --- Logic ---
+
+        const grid = document.getElementById('content-grid');
+        const searchInput = document.getElementById('search-input');
+        const filterDisplay = document.getElementById('active-filter-display');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        const toast = document.getElementById('toast');
+        let currentCategory = 'all';
+
+        function renderCards(data) {
+            grid.innerHTML = '';
+            
+            if(data.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-400">
+                        <i class="fa-solid fa-wind text-4xl mb-4"></i>
+                        <p>No terms found matching your search.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl p-6 border border-gray-200 shadow-sm card-hover transition-all duration-300 flex flex-col justify-between';
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-3xl text-ink font-serif font-bold mb-1 tracking-wide chinese-text cursor-pointer hover:text-seal-red transition-colors" onclick="copyToClipboard('${item.hanzi}')" title="Click to copy">
+                                    ${item.hanzi}
+                                </h3>
+                                <p class="text-seal-red font-medium text-sm tracking-wider uppercase font-sans">${item.pinyin}</p>
+                            </div>
+                            <button onclick="copyToClipboard('${item.hanzi}')" class="text-gray-300 hover:text-seal-red transition-colors">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4 mb-4">
+                            <span class="inline-block px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-md mb-2 font-semibold tracking-wide">${item.english.toUpperCase()}</span>
+                            <p class="text-ink-light text-sm leading-relaxed">${item.definition}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-t border-gray-100 bg-paper-dark -mx-6 -mb-6 px-6 py-4 rounded-b-xl">
+                        <p class="text-ink font-serif text-lg mb-1 chinese-text">${item.example}</p>
+                        <p class="text-gray-500 text-xs italic">${item.example_en}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(category) {
+            currentCategory = category;
+            
+            // Update active styling on sidebar buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                // Reset styles
+                btn.classList.remove('bg-white', 'shadow-sm', 'ring-1', 'ring-gray-200');
+                btn.querySelector('i').classList.remove('text-seal-red');
+                btn.querySelector('i').classList.add('text-gray-400');
+                
+                // Add styles if match
+                if (btn.getAttribute('onclick').includes(category)) {
+                    btn.classList.add('bg-white', 'shadow-sm', 'ring-1', 'ring-gray-200');
+                    btn.querySelector('i').classList.remove('text-gray-400');
+                    btn.querySelector('i').classList.add('text-seal-red');
+                }
+            });
+
+            // Update display text
+            const displayMap = {
+                'all': 'All Terms',
+                'writing-terms': 'Writing Terms',
+                'drafts': 'Drafts & Scripts',
+                'structure': 'Articles & Paragraphs',
+                'sentences': 'Sentence Types',
+                'transitions': 'Transitions & Connectors',
+                'idioms': 'Idioms & Proverbs',
+                'parts-of-speech': 'Parts of Speech (词类)',
+                'components': 'Sentence Components (句子成分)',
+                'particles': 'Particles & Measures (助词与量词)',
+                'rhetoric': 'Rhetorical Devices (修辞手法)'
+            };
+            
+            filterDisplay.innerHTML = `<span>Showing: <span class="font-bold text-ink">${displayMap[category]}</span></span>`;
+
+            // Filter data
+            const filteredData = category === 'all' 
+                ? writingData 
+                : writingData.filter(item => item.category === category);
+            
+            renderCards(filteredData);
+            
+            // Close sidebar on mobile if open
+            if(window.innerWidth < 768) {
+                toggleSidebar();
+            }
+        }
+
+        function search(query) {
+            const lowerQuery = query.toLowerCase();
+            const filtered = writingData.filter(item => {
+                const inCategory = currentCategory === 'all' || item.category === currentCategory;
+                const matchesSearch = 
+                    item.hanzi.includes(query) ||
+                    item.pinyin.toLowerCase().includes(lowerQuery) ||
+                    item.english.toLowerCase().includes(lowerQuery) ||
+                    item.definition.toLowerCase().includes(lowerQuery);
+                return inCategory && matchesSearch;
+            });
+            renderCards(filtered);
+        }
+
+        // Search Listener
+        searchInput.addEventListener('input', (e) => {
+            search(e.target.value);
+        });
+
+        // Copy Function
+        function copyToClipboard(text) {
+            // Using modern Clipboard API where possible, fallback for safety
+            const tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            
+            // Show Toast
+            showToast();
+        }
+
+        function showToast() {
+            toast.classList.remove('hidden');
+            toast.classList.add('toast'); // Re-trigger animation
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2000);
+        }
+
+        // Mobile Menu Logic
+        function toggleSidebar() {
+            const isClosed = sidebar.classList.contains('-translate-x-full');
+            if (isClosed) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // Initial Render
+        renderCards(writingData);
+
+    </script>
+</body>
+</html>
